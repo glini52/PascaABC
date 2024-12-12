@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Переміщення об'єктів за мишкою</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .draggable {
+            position: absolute;
+            cursor: pointer;
+            transition: none; /* Вимикаємо плавний перехід */
+        }
+
+        /* Стилі для об'єктів з різними формами */
+
+        .box1 {
+            width: 100px;
+            height: 100px;
+            background-color: rgba(255, 0, 0, 0.5);  /* Червоний з напівпрозорістю */
+            border-radius: 50%;  /* Перетворює квадрат в коло */
+        }
+
+        .box2 {
+            width: 150px;
+            height: 80px;
+            background-color: rgba(0, 0, 255, 0.5);  /* Синій з напівпрозорістю */
+            border-radius: 10px;  /* Округлені кути для прямокутника */
+        }
+
+        .box3 {
+            width: 0;
+            height: 0;
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+            border-bottom: 100px solid rgba(0, 255, 0, 0.5); /* Зелений трикутник з напівпрозорістю */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Створюємо три елементи з різними формами -->
+    <div class="draggable box1" id="box1"></div>
+    <div class="draggable box2" id="box2"></div>
+    <div class="draggable box3" id="box3"></div>
+
+    <script>
+        // Функція для переміщення об'єкта
+        function makeDraggable(element) {
+            let isDragging = false;
+
+            element.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                document.body.style.userSelect = 'none'; // Запобігає виділенню тексту під час перетягування
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (isDragging) {
+                    // Переміщуємо елемент на поточну позицію миші
+                    element.style.left = (e.clientX - element.offsetWidth / 2) + 'px';
+                    element.style.top = (e.clientY - element.offsetHeight / 2) + 'px';
+                }
+            });
+
+            document.addEventListener('mouseup', () => {
+                isDragging = false;
+                document.body.style.userSelect = ''; // Відновлює стандартну поведінку
+            });
+        }
+
+        // Додаємо функціональність переміщення для кожного елемента
+        makeDraggable(document.getElementById('box1'));
+        makeDraggable(document.getElementById('box2'));
+        makeDraggable(document.getElementById('box3'));
+    </script>
+
+</body>
+</html>
